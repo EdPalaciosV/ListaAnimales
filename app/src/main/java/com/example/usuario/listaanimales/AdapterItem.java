@@ -28,27 +28,55 @@ public class AdapterItem extends ArrayAdapter<Items> {
     @Override
     public View getView(int position,  View convertView,  ViewGroup parent) {
 
-        View view=convertView;
+        //View view;
         //LayoutInflater permite  colocar los atributos de diseño( R.layout.disenio_listview) ala variable de tipo view
-        LayoutInflater inflater=LayoutInflater.from(context);
+       // LayoutInflater inflater=LayoutInflater.from(context);
         /*el primer parametro :corresponde al diseño que creamos.
         segundo parametro: corresponde al contenedor (LinearLayout,RelativeLyout,etc) en donde  se adjuntaria la estructura
         tercer parametro permite adjuntar la vista inflada(true) o no(false)*/
 
-        view=inflater.inflate(R.layout.disenio_listview,null,false);
+        //view=inflater.inflate(R.layout.disenio_listview,null,false);
 
         //enlazamos las vistas ya que la variable view tiene los atributos de estas.
-        ImageView imagen=view.findViewById(R.id.imagen);
-        TextView tvEspañol=view.findViewById(R.id.textoEspañol);
-        TextView tvIngles=view.findViewById(R.id.textoIngles);
+        //ImageView imagen=view.findViewById(R.id.imagen);
+        //TextView tvEspañol=view.findViewById(R.id.textoEspañol);
+        //TextView tvIngles=view.findViewById(R.id.textoIngles);
 
+        //Items items1=items.get(position);
         //colocamos los datos alas vistas ( 1 Imageview y 2 Textviews)
-        imagen.setImageResource(items.get(position).imagen);
-        tvEspañol.setText(items.get(position).textoEspañol);
-        tvIngles.setText(items.get(position).textoIngles);
+        //imagen.setImageResource(items1.getImagen());
+        //tvEspañol.setText(items1.getTextoEspañol());
+        //tvIngles.setText(items1.getTextoIngles());
         /*devuelve la vista ya cargada con los datos ya colocados en la  Imageview y los Textviews ya listos
         para ser visualizados en el listview*/
-        return view;
+
+        //*****************Forma optima para solo utilizar el metodo findViewById una vez en la ejecución del programa********************************
+        HolderItem holderItem;
+
+        if(convertView==null)
+        {
+            LayoutInflater inflater=LayoutInflater.from(context);
+            convertView=inflater.inflate(R.layout.disenio_listview,null,false);
+
+            holderItem=new HolderItem();
+            holderItem.imagen=convertView.findViewById(R.id.imagen);
+            holderItem.tvEspañol=convertView.findViewById(R.id.textoEspañol);
+            holderItem.tvIngles=convertView.findViewById(R.id.textoIngles);
+
+            convertView.setTag(holderItem);
+
+        }
+        else
+        {
+            holderItem=(HolderItem) convertView.getTag();
+
+        }
+
+        holderItem.imagen.setImageResource(items.get(position).getImagen());
+        holderItem.tvEspañol.setText(items.get(position).getTextoEspañol());
+        holderItem.tvIngles.setText(items.get(position).getTextoIngles());
+
+        return convertView;
     }
 }
 
